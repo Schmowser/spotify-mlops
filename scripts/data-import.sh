@@ -1,1 +1,1 @@
-mongoimport --type csv -d songdb -c songs --headerline --drop ./data/data_by_year.csv
+mongoimport --type csv -d songdb -c songs --headerline --drop ./data/data.csv

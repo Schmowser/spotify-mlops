@@ -26,6 +26,7 @@ Install following packages via pip (make sure to use pip3):
 * `pip install flask` (APIs)
 * `pip install Flask-APScheduler` (Job Scheduler for Flask with API)
 * `pip install Flask-PyMongo` (MongoDB Wrapper)
+* `pip install pycaret` (AutoML framework for model training)
 
 #### Set up database
 
@@ -45,3 +46,19 @@ Run the `import-data.sh` script in order to fill mongodb with data
   
 With `FLASK_ENV=development` the application starts on `localhost:9000`.
 With `FLASK_ENV=production` the application starts on `0.0.0.0:9000`.
+
+## Experiment Tracking
+
+In order to track experiment, we integrate MLFlow. For local usage please, navigate into the `traning` folder and start 
+an MLFlow server which can be reached at `localhost:5000`
+
+```
+cd training
+mlflow ui
+```
+
+## Serving the model
+
+```
+mlflow models serve -m runs:/<RUN_ID>/artifacts -p 1234
+```

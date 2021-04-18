@@ -9,7 +9,6 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
-data/
 develop-eggs/
 dist/
 downloads/
@@ -131,3 +130,9 @@ dmypy.json
 
 # Project related folders
 services/.idea
+
+# Training data
+data/
+
+# MLFlow runs
+/training/mlruns
