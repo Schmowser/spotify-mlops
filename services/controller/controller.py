@@ -1,4 +1,6 @@
+import json
 import os
+import requests
 
 from flask import Flask
 from flask_pymongo import PyMongo
@@ -20,7 +22,22 @@ db = mongo.db
 
 @app.route('/')
 def start_bot():
-    return 'Test'
+    # Call the model service TODO: Pass Payload to this endpoint to model service
+    headers = {
+        'Content-Type': 'application/json',
+        'format': 'pandas-split'
+    }
+    body = {
+        'data': [
+            [0.8109999999999999, 0.498, 185320, 0.47100000000000003,
+             0.113, 0.121, -10.405999999999999, 0.0411,
+             112.01799999999999, 0.35100000000000003, 2020]
+        ]
+    }
+    response = requests.post('http://localhost:1234/invocations',
+                             data=json.dumps(body),
+                             headers=headers)
+    return response.content
 
 
 if __name__ == '__main__':
