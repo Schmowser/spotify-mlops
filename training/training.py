@@ -11,7 +11,7 @@ mongo_client = MongoClient('localhost', 27017)
 
 # create new database and client collection
 db = mongo_client.songdb
-col = db.songs
+col = db.training_data
 
 # API call to MongoDB collection
 mongo_docs = col.find()

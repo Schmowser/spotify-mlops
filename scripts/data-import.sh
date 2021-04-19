@@ -1,1 +1,1 @@
-mongoimport --type csv -d songdb -c songs --headerline --drop ./data/data.csv
+mongoimport --type csv -d songdb -c training_data --headerline --drop ./data/data.csv

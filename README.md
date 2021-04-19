@@ -59,6 +59,13 @@ mlflow ui
 
 ## Serving the model
 
+Locally from command line
 ```
 mlflow models serve -m runs:/<RUN_ID>/artifacts -p 1234
+```
+
+Build the docker image and run a container exposing the service on port 1234
+```
+mlflow models build-docker -m runs:/<RUN_ID>/artifacts -n <IMAGE_NAME>
+docker run -p 1234:8080 <IMAGE_NAME>
 ```

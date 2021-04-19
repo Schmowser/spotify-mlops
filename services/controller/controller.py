@@ -37,6 +37,21 @@ def start_bot():
     response = requests.post('http://localhost:1234/invocations',
                              data=json.dumps(body),
                              headers=headers)
+    var = {
+        "acousticness": 0.8109999999999999,
+        "danceability": 0.498,
+        "duration_ms": 185320,
+        "energy": 0.47100000000000003,
+        "instrumentalness": 0.113,
+        "liveness": 0.121,
+        "loudness": -10.405999999999999,
+        "speechiness": 0.0411,
+        "tempo": 112.01799999999999,
+        "valence": 0.35100000000000003,
+        "year": 2020
+    }
+    db.feedback_data.insert_one(var)
+
     return response.content
 
 
