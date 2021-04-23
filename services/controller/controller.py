@@ -2,7 +2,7 @@ import json
 import os
 import requests
 
-from flask import Flask
+from flask import Flask, request
 from flask_pymongo import PyMongo
 
 
@@ -20,37 +20,28 @@ mongo = PyMongo(app)
 db = mongo.db
 
 
-@app.route('/')
+@app.route('/predict', methods=['POST'])
 def start_bot():
-    # Call the model service TODO: Pass Payload to this endpoint to model service
+    request_data = request.get_json()
+
     headers = {
         'Content-Type': 'application/json',
         'format': 'pandas-split'
     }
     body = {
+        'columns': [
+            list(request_data.keys())
+        ],
         'data': [
-            [0.8109999999999999, 0.498, 185320, 0.47100000000000003,
-             0.113, 0.121, -10.405999999999999, 0.0411,
-             112.01799999999999, 0.35100000000000003, 2020]
+            list(request_data.values())
         ]
     }
+
     response = requests.post('http://localhost:1234/invocations',
                              data=json.dumps(body),
                              headers=headers)
-    var = {
-        "acousticness": 0.8109999999999999,
-        "danceability": 0.498,
-        "duration_ms": 185320,
-        "energy": 0.47100000000000003,
-        "instrumentalness": 0.113,
-        "liveness": 0.121,
-        "loudness": -10.405999999999999,
-        "speechiness": 0.0411,
-        "tempo": 112.01799999999999,
-        "valence": 0.35100000000000003,
-        "year": 2020
-    }
-    db.feedback_data.insert_one(var)
+
+    db.feedback_data.insert_one(request_data)
 
     return response.content
 

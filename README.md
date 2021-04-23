@@ -69,3 +69,31 @@ Build the docker image and run a container exposing the service on port 1234
 mlflow models build-docker -m runs:/<RUN_ID>/artifacts -n <IMAGE_NAME>
 docker run -p 1234:8080 <IMAGE_NAME>
 ```
+
+## Specification
+
+### Example Request
+
+```
+curl --location --request POST 'localhost:9000/predict' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "acousticness": 0.8109999999999999,
+    "danceability": 0.498,
+    "duration_ms": 185320,
+    "energy": 0.47100000000000003,
+    "instrumentalness": 0.113,
+    "liveness": 0.121,
+    "loudness": -10.405999999999999,
+    "speechiness": 0.0411,
+    "tempo": 112.01799999999999,
+    "valence": 0.35100000000000003,
+    "year": 2020
+}'
+```
+
+### Example Response
+
+```
+[68.0]
+```
