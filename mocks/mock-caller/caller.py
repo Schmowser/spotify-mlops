@@ -33,7 +33,7 @@ def start_bot():
 def fetch_unseen_data_and_get_prediction():
     something = list(db.unseen_data.aggregate([{'$sample': {'size': 1}}]))
     request_body = something[0]
-    for key in ['_id', 'id', 'artists', 'explicit', 'key', 'mode', 'name', 'release_date', 'popularity']:
+    for key in ['_id', 'artists', 'explicit', 'key', 'mode', 'name', 'release_date', 'popularity']:
         del request_body[key]
     print(request_body)
 

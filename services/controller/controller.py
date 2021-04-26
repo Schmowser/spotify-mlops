@@ -22,7 +22,9 @@ db = mongo.db
 
 @app.route('/predict', methods=['POST'])
 def start_bot():
+    request_data_with_id = request.get_json().copy()
     request_data = request.get_json()
+    del request_data['id']
 
     headers = {
         'Content-Type': 'application/json',
@@ -41,9 +43,12 @@ def start_bot():
                              data=json.dumps(body),
                              headers=headers)
 
-    db.feedback_data.insert_one(request_data)
+    prediction = response.json()[0]
+    request_data_with_id['prediction'] = prediction
 
-    return response.content
+    db.feedback_data.insert_one(request_data_with_id)
+
+    return str(prediction)
 
 
 if __name__ == '__main__':
