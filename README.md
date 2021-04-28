@@ -47,6 +47,11 @@ Run the `import-data.sh` script in order to fill mongodb with data
 With `FLASK_ENV=development` the application starts on `localhost:9000`.
 With `FLASK_ENV=production` the application starts on `0.0.0.0:9000`.
 
+In order to start all services and mocks, use the docker-compose.yml by running after building all relevant Docker Images
+```
+docker compose up
+```
+
 ## Experiment Tracking
 
 In order to track experiment, we integrate MLFlow. For local usage please, navigate into the `traning` folder and start 
@@ -88,12 +93,14 @@ curl --location --request POST 'localhost:9000/predict' \
     "speechiness": 0.0411,
     "tempo": 112.01799999999999,
     "valence": 0.35100000000000003,
-    "year": 2020
+    "year": 2020,
+    "id": "5BK0uqwY9DNfZ630STAEaq"
 }'
 ```
 
 ### Example Response
 
 ```
-[68.0]
+68.0
 ```
+

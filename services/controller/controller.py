@@ -39,7 +39,7 @@ def start_bot():
         ]
     }
 
-    response = requests.post('http://localhost:1234/invocations',
+    response = requests.post(app.config.get('MODEL_SERVICE_URI'),
                              data=json.dumps(body),
                              headers=headers)
 

@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  controller:
+    image: "spotify-mlops-controller"
+    ports:
+      - "9000:9000"
+    environment:
+      FLASK_ENV: production
+  mongo:
+    image: "mongo"
+    ports:
+      - "27017:27017"
+  model:
+    image: "first-spotify-model"
+    ports:
+      - "8080:8080"
