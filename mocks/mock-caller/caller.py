@@ -41,7 +41,7 @@ def fetch_unseen_data_and_get_prediction():
         'Content-Type': 'application/json'
     }
 
-    response = requests.post('http://localhost:9000/predict',
+    response = requests.post(app.config.get('CONTROLLER_URI'),
                              data=json.dumps(request_body),
                              headers=headers)
     print(response.content)

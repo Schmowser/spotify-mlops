@@ -14,3 +14,15 @@ services:
     image: "first-spotify-model"
     ports:
       - "8080:8080"
+  caller:
+    image: "mock-caller"
+    ports:
+      - "2001:2001"
+    environment:
+      FLASK_ENV: production
+  labeler:
+    image: "mock-labeler"
+    ports:
+      - "2002:2002"
+    environment:
+      FLASK_ENV: production

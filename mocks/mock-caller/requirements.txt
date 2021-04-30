@@ -1,0 +1,4 @@
+flask
+Flask-PyMongo
+Flask-APScheduler
+requests

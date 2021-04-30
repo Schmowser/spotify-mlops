@@ -36,7 +36,8 @@ A convenient way would be running a Docker container of the official MongoDB ima
 and run a container with
 `docker run -d -p 27017:27017 --name retarddb mongo`.
 
-Run the `import-data.sh` script in order to fill mongodb with data
+Run the `import-data.sh` script in order to fill mongodb with data. It requires to have the CSV files of the Kaggle dataset 
+in a folder `data`.
 
 #### Running the application
 
