@@ -34,7 +34,7 @@ def label_feedback_data():
         unseen_data_point = db.unseen_data.find_one({'id': unlabeled_data_point['id']})
         print(unseen_data_point['popularity'])
         unlabeled_data_point['ground_truth'] = unseen_data_point['popularity']
-        db.feedback_data.replace_one(unlabeled_data_point)
+        db.feedback_data.replace_one({'_id': unlabeled_data_point['_id']}, unlabeled_data_point)
 
 
 if __name__ == '__main__':
