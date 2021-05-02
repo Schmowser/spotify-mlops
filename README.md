@@ -27,6 +27,7 @@ Install following packages via pip (make sure to use pip3):
 * `pip install Flask-APScheduler` (Job Scheduler for Flask with API)
 * `pip install Flask-PyMongo` (MongoDB Wrapper)
 * `pip install pycaret` (AutoML framework for model training)
+* `pip install python-json-logger` (Structured logging for monitoring - ELK)
 
 #### Set up database
 
