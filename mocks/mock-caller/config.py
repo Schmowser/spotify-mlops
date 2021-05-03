@@ -25,4 +25,4 @@ class DevConfig(Config):
     MONGO_URI = 'mongodb://localhost:27017/songdb'
     HOST = 'localhost'
     PORT = 2001
-    CONTROLLER_URI = 'http://localhost:1234/predict'
+    CONTROLLER_URI = 'http://localhost:9000/predict'

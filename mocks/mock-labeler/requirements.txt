@@ -2,3 +2,4 @@ flask
 Flask-PyMongo
 Flask-APScheduler
 requests
+python-json-logger

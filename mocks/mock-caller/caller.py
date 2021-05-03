@@ -1,7 +1,9 @@
 import json
 import os
 import requests
+import logging
 
+from pythonjsonlogger import jsonlogger
 from flask import Flask
 from flask_pymongo import PyMongo
 from flask_apscheduler import APScheduler
@@ -24,6 +26,8 @@ db = mongo.db
 scheduler = APScheduler()  # TODO: Do we need a job store to persist information on running jobs?
 scheduler.init_app(app)
 
+structured_logger = logging.getLogger(__name__)
+
 
 @app.route('/start')
 def start_bot():
@@ -35,7 +39,7 @@ def fetch_unseen_data_and_get_prediction():
     request_body = something[0]
     for key in ['_id', 'artists', 'explicit', 'key', 'mode', 'name', 'release_date', 'popularity']:
         del request_body[key]
-    print(request_body)
+    structured_logger.info(request_body)
 
     headers = {
         'Content-Type': 'application/json'
@@ -44,10 +48,25 @@ def fetch_unseen_data_and_get_prediction():
     response = requests.post(app.config.get('CONTROLLER_URI'),
                              data=json.dumps(request_body),
                              headers=headers)
-    print(response.content)
+    structured_logger.info({'message': 'POST /predict response',
+                            'status_code': response.status_code,
+                            'reason': response.reason})
+
+
+def setup_logging(log_level):
+    logger = logging.getLogger()
+    logger.setLevel(log_level)
+    json_handler = logging.StreamHandler()
+    formatter = jsonlogger.JsonFormatter(
+        fmt='%(asctime)s %(message)s %(levelname)s %(name)s %(filename)s %(funcName)s'
+    )
+    json_handler.setFormatter(formatter)
+    logger.addHandler(json_handler)
 
 
 if __name__ == '__main__':
+    setup_logging('INFO')
+
     port = app.config.get('PORT')
 
     scheduler.add_job('perform_unseen_call', fetch_unseen_data_and_get_prediction, trigger='interval', seconds=10)

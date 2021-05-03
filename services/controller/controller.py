@@ -20,32 +20,11 @@ else:
 mongo = PyMongo(app)
 db = mongo.db
 
-
-def setup_logging(log_level):
-    logger = logging.getLogger(__name__)
-    logger.setLevel(log_level)
-    json_handler = logging.StreamHandler()
-    formatter = jsonlogger.JsonFormatter(
-        fmt='%(asctime)s %(message)s %(levelname)s %(name)s %(filename)s %(funcName)s'
-    )
-    json_handler.setFormatter(formatter)
-    logger.addHandler(json_handler)
-
-
-def setup_flask_logging():
-    flask_logger = logging.getLogger()
-    log_handler = logging.StreamHandler()
-    formatter = jsonlogger.JsonFormatter(
-        fmt='%(asctime)s %(message)s %(levelname)s %(name)s %(filename)s %(funcName)s'
-    )
-    log_handler.setFormatter(formatter)
-    flask_logger.addHandler(log_handler)
+structured_logger = logging.getLogger(__name__)
 
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    logger = logging.getLogger(__name__)
-
     request_data_with_id = request.get_json().copy()
     request_data = request.get_json()
     del request_data['id']
@@ -71,13 +50,25 @@ def predict():
     request_data_with_id['prediction'] = prediction
 
     db.feedback_data.insert_one(request_data_with_id)
-    logger.info({"prediction": str(prediction)})
+    structured_logger.info({"prediction": str(prediction)})
 
     return str(prediction)
 
 
+def setup_logging(log_level):
+    logger = logging.getLogger()
+    logger.setLevel(log_level)
+    json_handler = logging.StreamHandler()
+    formatter = jsonlogger.JsonFormatter(
+        fmt='%(asctime)s %(message)s %(levelname)s %(name)s %(filename)s %(funcName)s'
+    )
+    json_handler.setFormatter(formatter)
+    logger.addHandler(json_handler)
+
+
 if __name__ == '__main__':
     setup_logging('INFO')
+
     port = app.config.get('PORT')
 
     # reloader is disabled in order to not run code twice on start up

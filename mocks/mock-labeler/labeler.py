@@ -1,5 +1,7 @@
 import os
+import logging
 
+from pythonjsonlogger import jsonlogger
 from flask import Flask
 from flask_pymongo import PyMongo
 from flask_apscheduler import APScheduler
@@ -21,6 +23,8 @@ db = mongo.db
 scheduler = APScheduler()
 scheduler.init_app(app)
 
+structured_logger = logging.getLogger(__name__)
+
 
 @app.route('/start')
 def start_bot():
@@ -30,14 +34,29 @@ def start_bot():
 def label_feedback_data():
     unlabeled_data = db.feedback_data.find({'ground_truth': {'$exists': False}})
     for unlabeled_data_point in unlabeled_data:
-        print(unlabeled_data_point)
         unseen_data_point = db.unseen_data.find_one({'id': unlabeled_data_point['id']})
-        print(unseen_data_point['popularity'])
         unlabeled_data_point['ground_truth'] = unseen_data_point['popularity']
+        structured_logger.info({
+                'message': 'Error computation',
+                'abs_error': str(abs(unlabeled_data_point['ground_truth'] - unlabeled_data_point['prediction']))
+            })
         db.feedback_data.replace_one({'_id': unlabeled_data_point['_id']}, unlabeled_data_point)
 
 
+def setup_logging(log_level):
+    logger = logging.getLogger()
+    logger.setLevel(log_level)
+    json_handler = logging.StreamHandler()
+    formatter = jsonlogger.JsonFormatter(
+        fmt='%(asctime)s %(message)s %(levelname)s %(name)s %(filename)s %(funcName)s'
+    )
+    json_handler.setFormatter(formatter)
+    logger.addHandler(json_handler)
+
+
 if __name__ == '__main__':
+    setup_logging('INFO')
+
     port = app.config.get('PORT')
 
     scheduler.add_job('label_data', label_feedback_data, trigger='interval', seconds=10)
