@@ -1,7 +1,24 @@
 # spotify-mlops
 Showcase of monitoring and retraining of Machine Learning model on Spotify data
 
+## Architecture
+
+![This shows a diagram on architecture](./diagrams/spotify-mlops.png "Spotify MLOps Architecture")
+
+* A: The database provides Unseen Data that is used by the _mock-caller_
+* B: The _mock-caller_ service calls the _controller_ for each unseen data point every x seconds
+* C: The _controller_ service uses an unseen data point to gather a prediction from the deployed _model_ service
+* D: The _controller_ service saves the data point and its prediction in the collection Feedback Data
+* E: The _mock-labeler_ service finds all feedback data points that have a prediction but no ground truth label, it will add it and overwrite the document
+* F: If a retraining is triggered, Feedback Data will also be used for model training
+* G: The Training Data is used to train the model that eventually replaces the stale one inside the model service
+
 ## Data
+
+Data is stored in a MongoDB. There are three collections:
+* Training Data: Data used for model training
+* Feedback Data: Data that has been predicted by the model
+* Unseen Data: Data used for prediction, distinct from Training data
 
 [Data Source](https://www.kaggle.com/yamaerenay/spotify-dataset-19212020-160k-tracks)
 split into
@@ -12,11 +29,17 @@ split into
 
 ### Controller
 
+TBA
+
 ## Mocks
 
 ### Mock Caller
 
+TBA
+
 ### Mock Labeler
+
+TBA
 
 ### How to run the application
 
