@@ -6,12 +6,15 @@ Showcase of monitoring and retraining of Machine Learning model on Spotify data
 ![This shows a diagram on architecture](./diagrams/spotify-mlops.png "Spotify MLOps Architecture")
 
 * A: The database provides Unseen Data that is used by the _mock-caller_
-* B: The _mock-caller_ service calls the _controller_ for each unseen data point every x seconds
+* B: The _mock-caller_ service calls the _controller_ service for each unseen data point every x seconds
 * C: The _controller_ service uses an unseen data point to gather a prediction from the deployed _model_ service
 * D: The _controller_ service saves the data point and its prediction in the collection Feedback Data
 * E: The _mock-labeler_ service finds all feedback data points that have a prediction but no ground truth label, it will add it and overwrite the document
 * F: If a retraining is triggered, Feedback Data will also be used for model training
 * G: The Training Data is used to train the model that eventually replaces the stale one inside the model service
+
+Note: In a production scenario, the _mock-caller_ would be replaced by a client application that wants a prediction on a data point.
+The _mock-labeler_ would be a backend system that determines the correct value of the predicted label.
 
 ## Data
 
@@ -51,6 +54,7 @@ Install following packages via pip (make sure to use pip3):
 * `pip install Flask-PyMongo` (MongoDB Wrapper)
 * `pip install pycaret` (AutoML framework for model training)
 * `pip install python-json-logger` (Structured logging for monitoring - ELK)
+* `pip install data-drift-detector` (Data Drift)
 
 #### Set up database
 
@@ -129,3 +133,4 @@ curl --location --request POST 'localhost:9000/predict' \
 68.0
 ```
 
+https://github.com/kelvnt/data-drift-detector

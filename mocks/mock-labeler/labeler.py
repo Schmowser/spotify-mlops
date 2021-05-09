@@ -38,7 +38,7 @@ def label_feedback_data():
         unlabeled_data_point['ground_truth'] = unseen_data_point['popularity']
         structured_logger.info({
                 'message': 'Error computation',
-                'abs_error': str(abs(unlabeled_data_point['ground_truth'] - unlabeled_data_point['prediction']))
+                'abs_error': float(abs(unlabeled_data_point['ground_truth'] - unlabeled_data_point['prediction']))
             })
         db.feedback_data.replace_one({'_id': unlabeled_data_point['_id']}, unlabeled_data_point)
 

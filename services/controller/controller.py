@@ -50,7 +50,7 @@ def predict():
     request_data_with_id['prediction'] = prediction
 
     db.feedback_data.insert_one(request_data_with_id)
-    structured_logger.info({"prediction": str(prediction)})
+    structured_logger.info({"prediction": float(prediction)})
 
     return str(prediction)
 
