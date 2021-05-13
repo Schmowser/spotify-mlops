@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+  mongo_seed:
+    image: mongo
+    links:
+      - mongodb
+    depends_on:
+      - pandas_split
+    volumes:
+      - ./mongo-seed:/mongo-seed
+    command: 'bash -c "mongoimport --host mongodb --type csv -d songdb -c training_data --headerline --drop --file /mongo-seed/training_data.csv && mongoimport --host mongodb --type csv -d songdb -c unseen_data --headerline --drop --file /mongo-seed/unseen_data.csv"'
+  model:
+    image: "first-spotify-model"  # TODO: Change to more generic name
+    ports:
+      - "8080:8080"
+  controller:
+    build: ./services/controller
+    ports:
+      - "9000:9000"
+    environment:
+      FLASK_ENV: production
+  caller:
+    build: ./mocks/mock-caller
+    ports:
+      - "2001:2001"
+    environment:
+      FLASK_ENV: production
+    depends_on:
+      - mongodb
+  labeler:
+    build: ./mocks/mock-labeler
+    ports:
+      - "2002:2002"
+    environment:
+      FLASK_ENV: production

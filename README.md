@@ -26,7 +26,7 @@ Data is stored in a MongoDB. There are three collections:
 [Data Source](https://www.kaggle.com/yamaerenay/spotify-dataset-19212020-160k-tracks)
 split into
 * Training Data (1921 - 1991)
-* Feedback Data (1992 - 2021)
+* Unseen Data (1992 - 2021)
 
 ## Services
 
@@ -43,6 +43,18 @@ TBA
 ### Mock Labeler
 
 TBA
+
+### Quickstart
+
+TODO: Build your model service in a Docker Image called "first-spotify-model"
+1. Install Docker on your machine
+2a. Import your whole data set and split it with pandas and sklearn
+   * Put your data as `data.csv` in the `data` directory 
+   * Install python, sklearn and pandas on your machine
+   * Run `python ./scripts/seen_unseen_split.py <TARGET_LABEL>` where `<TARGET_LABEL>` is replaced with the column name to be predicted.
+2b. Put `training_data.csv` and `unseen_data.csv` into `mongo-seed` directory directly
+3. Run `docker compose up -d -f docker-compose-build.yml`
+4. Shut down Docker containers by `docker compose down`
 
 ### How to run the application
 

@@ -6,12 +6,12 @@ services:
       - "9000:9000"
     environment:
       FLASK_ENV: production
-  mongo:
+  mongodb:
     image: "mongo"
     ports:
       - "27017:27017"
   model:
-    image: "first-spotify-model"
+    image: "first-spotify-model"  # TODO: Change to more generic name
     ports:
       - "8080:8080"
   caller:

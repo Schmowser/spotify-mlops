@@ -12,7 +12,7 @@ class ProdConfig(Config):
     FLASK_ENV = 'production'
     DEBUG = False
     TESTING = False
-    MONGO_URI = 'mongodb://mongo:27017/songdb'
+    MONGO_URI = 'mongodb://mongodb:27017/songdb'
     HOST = '0.0.0.0'
     PORT = 2001
     CONTROLLER_URI = 'http://controller:9000/predict'
