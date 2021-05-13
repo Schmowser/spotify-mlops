@@ -56,7 +56,7 @@ TODO: Build your model service in a Docker Image called "first-spotify-model"
 3. Run `docker compose up -d -f docker-compose-build.yml`
 4. Shut down Docker containers by `docker compose down`
 
-### How to run the application
+### How to run the application locally
 
 ##### Required packages
 
@@ -74,7 +74,7 @@ The application requires a NoSQL database. For local development run a MongoDB i
 A convenient way would be running a Docker container of the official MongoDB image. You can pull the latest image via
 `docker pull mongo`
 and run a container with
-`docker run -d -p 27017:27017 --name retarddb mongo`.
+`docker run -d -p 27017:27017 --name songdb mongo`.
 
 Run the `import-data.sh` script in order to fill mongodb with data. It requires to have the CSV files of the Kaggle dataset 
 in a folder `data`.
