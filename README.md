@@ -46,15 +46,16 @@ TBA
 
 ### Quickstart
 
-TODO: Build your model service in a Docker Image called "first-spotify-model"
 1. Install Docker on your machine
-2a. Import your whole data set and split it with pandas and sklearn
-   * Put your data as `data.csv` in the `data` directory 
-   * Install python, sklearn and pandas on your machine
-   * Run `python ./scripts/seen_unseen_split.py <TARGET_LABEL>` where `<TARGET_LABEL>` is replaced with the column name to be predicted.
-2b. Put `training_data.csv` and `unseen_data.csv` into `mongo-seed` directory directly
-3. Run `docker compose up -d -f docker-compose-build.yml`
-4. Shut down Docker containers by `docker compose down`
+2.
+   1. Import your whole data set and split it with pandas and sklearn
+      * Put your data as `data.csv` in the `data` directory 
+      * Install python, sklearn and pandas on your machine
+      * Run `python ./scripts/seen_unseen_split.py <TARGET_LABEL>` where `<TARGET_LABEL>` is replaced with the column name to be predicted.
+   2. OR Put `training_data.csv` and `unseen_data.csv` into `mongo-seed` directory directly
+3. Train your model, and use MLFlow for Experiment Tracking. Build a Docker Image serving this model by `mlflow models build-docker -m runs:/<RUN_ID>/artifacts -n <IMAGE_NAME>` (Currently: first-spotify-model - TODO: Change to more generic name)
+4. Run `docker compose up -d -f docker-compose-build.yml`
+5. Shut down Docker containers by `docker compose down`
 
 ### How to run the application locally
 
